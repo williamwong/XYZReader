@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Bacon.Detail">
+    <!--
+       Base application theme, dependent on API level. This theme overrides
+       the AppBaseTheme from res/values/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Base.Theme">
+        <!--
+            Theme customizations available in newer API levels can go in
+            here, while customizations related to backward-compatibility
+            can go in res/values/styles.xml.
+        -->
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>
