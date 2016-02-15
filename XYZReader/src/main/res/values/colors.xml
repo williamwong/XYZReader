@@ -18,10 +18,13 @@
 <resources>
     <color name="photo_placeholder">#ccc</color>
 
-    <color name="primary">#00695C</color>
-    <color name="primary_dark">#004D40</color>
+    <color name="primary">#00838F</color>
+    <color name="primary_dark">#006064</color>
     <color name="accent">#FF4081</color>
     <color name="primary_text">#222222</color>
     <color name="secondary_text">#66000000</color>
     <color name="window_background">#CCCCCC</color>
+    <color name="article_title">@android:color/white</color>
+    <color name="article_byline">#88FFFFFF</color>
+    <color name="subtitle">#66000000</color>
 </resources>

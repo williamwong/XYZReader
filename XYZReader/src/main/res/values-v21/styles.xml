@@ -12,5 +12,6 @@
             can go in res/values/styles.xml.
         -->
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:colorControlNormal">@android:color/white</item>
     </style>
 </resources>
