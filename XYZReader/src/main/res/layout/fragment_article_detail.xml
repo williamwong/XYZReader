@@ -3,69 +3,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <com.example.xyzreader.ui.MaxWidthLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:maxWidth="@dimen/detail_card_max_width"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:id="@+id/meta_bar"
+                style="@style/DetailMetaBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/detail_metabar_vert_padding"
-                android:background="@color/window_background"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/detail_metabar_vert_padding"
-                android:paddingEnd="@dimen/detail_inner_horiz_margin"
-                android:paddingLeft="@dimen/detail_inner_horiz_margin"
-                android:paddingRight="@dimen/detail_inner_horiz_margin"
-                android:paddingStart="@dimen/detail_inner_horiz_margin"
-                android:paddingTop="@dimen/detail_metabar_vert_padding">
+                >
 
                 <TextView
                     android:id="@+id/article_title"
-                    style="?android:attr/textAppearanceLarge"
+                    style="@style/DetailArticleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:lineSpacingMultiplier="0.9"
-                    android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                    android:textColor="@color/article_title"
-                    android:textSize="@dimen/detail_title_text_size"
-                    android:textStyle="bold"
-                    tools:text="Article Title"/>
+                    android:layout_marginBottom="@dimen/detail_metabar_title_bottom_padding"
+                    tools:text="Article Title"
+                    />
 
                 <TextView
                     android:id="@+id/article_byline"
-                    style="?android:attr/textAppearanceSmall"
-                    android:layout_width="wrap_content"
+                    style="@style/DetailArticleByline"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/article_byline"
-                    tools:text="Jan 1 2016 by Author"/>
+                    tools:text="Jan 1 2016 by Author"
+                    />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/article_body"
-                style="?android:attr/textAppearanceMedium"
+                style="@style/DetailArticleBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
-                android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
-                android:paddingBottom="@dimen/detail_body_bottom_margin"
-                android:textColor="@color/primary_text"
-                android:textColorLink="@color/accent"
-                android:textSize="@dimen/detail_body_text_size"
-                tools:text="Article body."/>
+                tools:text="Article body. This will hold long paragraphs of text."
+                />
 
         </com.example.xyzreader.ui.MaxWidthLinearLayout>
 

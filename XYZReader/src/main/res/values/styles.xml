@@ -1,23 +1,21 @@
-<!-- File created by the Android Action Bar Style Generator
-
-     Copyright (C) 2012 readyState Software Ltd
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-  
-          http://www.apache.org/licenses/LICENSE-2.0
-  
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <resources>
 
-    <style name="Base.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        Theme customizations available in newer API levels can go in
+        res/values-vXX/styles.xml, while customizations related to
+        backward-compatibility can go here.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+
+    <!--
+        Application theme. All customizations that are NOT specific to a particular
+        API-level can go here.
+    -->
+    <style name="AppTheme" parent="AppBaseTheme">
 
         <!-- Primary app color for the toolbar -->
         <item name="colorPrimary">@color/primary</item>
@@ -26,44 +24,76 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
 
         <!-- Theme UI controls like checkboxes and text fields e.g. FloatActionButton -->
+        <!-- Also sets default textColorLink -->
         <item name="colorAccent">@color/accent</item>
 
-        <!-- Title text color -->
-        <!--<item name="android:textColorPrimary">@color/primary_text</item>-->
+        <!-- Inherited by TextAppearance.AppCompat.Subhead and Large -->
+        <item name="android:textColorPrimary">@color/grey_200</item>
 
-        <!-- Color of the menu overflow icon -->
-        <!--<item name="android:textColorSecondary">@color/secondary_text</item>-->
+        <!-- Inherited by TextAppearance.AppCompat.Medium -->
+        <item name="android:textColorSecondary">@color/grey_900</item>
 
-        <!-- Overall window background -->
-        <item name="android:windowBackground">@color/window_background</item>
+        <!-- Inherited by TextAppearance.AppCompat.Small -->
+        <item name="android:textColorTertiary">@color/grey_500</item>
 
     </style>
 
-    <!--
-       Base application theme, dependent on API level. This theme is replaced
-       by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="Base.Theme">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
-    <!--
-        Application theme.
-    -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!--
-            All customizations that are NOT specific to a particular API-level can go here.
-         -->
-        <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
+    <!-- Overrides for DetailActivity -->
     <style name="AppTheme.DetailActivity">
-        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
     </style>
 
+
+    <!--
+        Custom styles
+     -->
+    <style name="ArticleItemTitle" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:paddingLeft">@dimen/spacing_normal</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
+        <item name="android:paddingBottom">@dimen/spacing_small</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">4</item>
+    </style>
+
+    <style name="ArticleItemSubtitle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:paddingLeft">@dimen/spacing_normal</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+        <item name="android:textColor">?android:attr/textColorTertiary</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="DetailMetaBar">
+        <item name="android:background">@color/grey_300</item>
+        <item name="android:paddingBottom">@dimen/detail_metabar_vert_padding</item>
+        <item name="android:paddingLeft">@dimen/detail_inner_horiz_margin</item>
+        <item name="android:paddingRight">@dimen/detail_inner_horiz_margin</item>
+        <item name="android:paddingTop">@dimen/detail_metabar_vert_padding</item>
+    </style>
+
+    <style name="DetailArticleTitle" parent="TextAppearance.AppCompat.Large">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:lineSpacingMultiplier">@fraction/detail_title_line_spacing_multiplier</item>
+        <item name="android:textSize">@dimen/detail_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DetailArticleByline" parent="TextAppearance.AppCompat.Small">
+        <!-- textColor inherited from android:textColorTertiary -->
+        <!-- textSize defaults to 14sp -->
+    </style>
+
+    <style name="DetailArticleBody" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:lineSpacingMultiplier">@fraction/detail_body_line_spacing_multiplier</item>
+        <item name="android:paddingTop">@dimen/detail_metabar_vert_padding</item>
+        <item name="android:paddingLeft">@dimen/detail_inner_horiz_margin</item>
+        <item name="android:paddingRight">@dimen/detail_inner_horiz_margin</item>
+        <item name="android:paddingBottom">@dimen/detail_body_bottom_margin</item>
+        <item name="android:textSize">@dimen/detail_body_text_size</item>
+    </style>
 
 </resources>
