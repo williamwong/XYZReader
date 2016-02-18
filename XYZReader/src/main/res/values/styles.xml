@@ -40,7 +40,7 @@
 
     <!-- Overrides for DetailActivity -->
     <style name="AppTheme.DetailActivity">
-        <!--<item name="android:windowActionBarOverlay">true</item>-->
+
     </style>
 
 
