@@ -3,18 +3,23 @@ package com.example.xyzreader.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
@@ -24,13 +29,20 @@ import com.example.xyzreader.data.ItemsContract;
  * An activity representing a single Article detail screen, letting you swipe between articles.
  */
 public class ArticleDetailActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+        implements LoaderManager.LoaderCallbacks<Cursor>, ArticleDetailFragment.Callbacks {
 
-    private Cursor mCursor;
     private long mStartId;
 
+    private ArticleDetailActivity mActivity;
+    private ArticleDetailFragment mCurrentFragment;
+    private Cursor mCursor;
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
+
+    private CollapsingToolbarLayout mCoordinatorLayout;
+    private ImageView mPhoto;
+    private FloatingActionButton mFab;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +54,11 @@ public class ArticleDetailActivity extends AppCompatActivity
         }
         setContentView(R.layout.activity_article_detail);
 
+        mCoordinatorLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mPhoto = (ImageView) findViewById(R.id.photo);
+        mFab = (FloatingActionButton) findViewById(R.id.share_fab);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
         getLoaderManager().initLoader(0, null, this);
 
         setupPager();
@@ -52,11 +69,12 @@ public class ArticleDetailActivity extends AppCompatActivity
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
             }
         }
+
+        mActivity = this;
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -85,6 +103,26 @@ public class ArticleDetailActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    public void onUpdateUi(ArticleDetailFragment fragment) {
+        if (fragment == mCurrentFragment) {
+            mCoordinatorLayout.setContentScrimColor(fragment.getMutedColor());
+            mCoordinatorLayout.setStatusBarScrimColor(fragment.getMutedColor());
+
+            mPhoto.setImageBitmap(fragment.getBitmap());
+
+            mFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO update share intent with fragment data
+                    startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(mActivity)
+                            .setType("text/plain")
+                            .setText("Some sample text")
+                            .getIntent(), getString(R.string.action_share)));
+                }
+            });
+        }
     }
 
     @Override
@@ -129,7 +167,8 @@ public class ArticleDetailActivity extends AppCompatActivity
             super.setPrimaryItem(container, position, object);
             ArticleDetailFragment fragment = (ArticleDetailFragment) object;
             if (fragment != null) {
-                fragment.setToolbarImage();
+                mCurrentFragment = fragment;
+                onUpdateUi(fragment);
             }
         }
 
