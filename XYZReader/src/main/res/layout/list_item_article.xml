@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/grey_300"
+            android:transitionName="@string/hero_image_transition_name"
             />
 
         <TextView

@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +32,8 @@ import com.example.xyzreader.data.UpdaterService;
 public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = "ArticleListActivity";
+    private ArticleListActivity mActivity;
+
     private boolean mIsRefreshing;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -46,6 +48,7 @@ public class ArticleListActivity extends AppCompatActivity implements
             }
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,8 @@ public class ArticleListActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             startService(new Intent(this, UpdaterService.class));
         }
+
+        mActivity = this;
     }
 
     private void refresh() {
@@ -128,8 +133,13 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    final String transitionName = view.getResources()
+                            .getString(R.string.hero_image_transition_name);
+                    final ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(mActivity, vh.thumbnailView, transitionName);
+                    final Intent intent = new Intent(Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
+                    startActivity(intent, options.toBundle());
                 }
             });
             return vh;
@@ -161,7 +171,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder {
         public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;

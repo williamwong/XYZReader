@@ -38,7 +38,7 @@ public class ArticleDetailFragment extends Fragment implements
 
     private Cursor mCursor;
     private long mItemId;
-    private int mMutedColor = 0xFF333333;
+    private int mMutedColor = -1;
 
     private View mRootView;
     private LinearLayout mMetaBar;
@@ -144,27 +144,9 @@ public class ArticleDetailFragment extends Fragment implements
                             + "</font>"));
             bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)));
 
-            ImageLoaderHelper
-                    .getInstance(getActivity())
-                    .getImageLoader()
-                    .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            mBitmap = imageContainer.getBitmap();
-                            if (mBitmap != null) {
-                                Palette p = new Palette.Builder(mBitmap).maximumColorCount(12).generate();
-                                mMutedColor = p.getDarkMutedColor(0xFF333333);
-                                mMetaBar.setBackgroundColor(mMutedColor);
-
-                                mCallbacks.onUpdateUi(mFragment);
-                            }
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    });
+            // Load the low-resolution image first to ensure smooth transition. After low res load
+            // is complete, the method will call itself again to load hi resolution image.
+            loadImage(ImageType.THUMB);
 
             mCallbacks.onUpdateUi(mFragment);
 
@@ -173,6 +155,48 @@ public class ArticleDetailFragment extends Fragment implements
             titleView.setText("N/A");
             bylineView.setText("N/A");
             bodyView.setText("N/A");
+        }
+    }
+
+    public void loadImage(final ImageType imageType) {
+        ImageLoaderHelper
+                .getInstance(getActivity())
+                .getImageLoader()
+                .get(mCursor.getString(imageType.urlColumnIndex), new ImageLoader.ImageListener() {
+                    @Override
+                    public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                        mBitmap = imageContainer.getBitmap();
+                        if (mBitmap != null) {
+                            if (mMutedColor == -1) {
+                                Palette p = new Palette.Builder(mBitmap).maximumColorCount(12).generate();
+                                mMutedColor = p.getDarkMutedColor(0xFF333333);
+                                mMetaBar.setBackgroundColor(mMutedColor);
+                            }
+
+                            mCallbacks.onUpdateUi(mFragment);
+                        }
+
+                        // If only thumbnail was loaded, load full resolution image
+                        if (imageType == ImageType.THUMB) {
+                            loadImage(ImageType.PHOTO);
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+    }
+
+    private enum ImageType {
+        THUMB(ArticleLoader.Query.THUMB_URL),
+        PHOTO(ArticleLoader.Query.PHOTO_URL);
+
+        public final int urlColumnIndex;
+
+        ImageType(int urlColumnIndex) {
+            this.urlColumnIndex = urlColumnIndex;
         }
     }
 

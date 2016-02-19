@@ -29,6 +29,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/article_image_description"
                 android:scaleType="centerCrop"
+                android:transitionName="@string/hero_image_transition_name"
                 app:layout_collapseMode="parallax"
                 />
 
