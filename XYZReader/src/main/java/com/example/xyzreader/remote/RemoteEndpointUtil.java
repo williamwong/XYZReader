@@ -2,8 +2,6 @@ package com.example.xyzreader.remote;
 
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
@@ -14,6 +12,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.OkHttpClient;
+import okhttp3.OkUrlFactory;
+
 public class RemoteEndpointUtil {
     private static final String TAG = "RemoteEndpointUtil";
 
@@ -21,7 +22,7 @@ public class RemoteEndpointUtil {
     }
 
     public static JSONArray fetchJsonArray() {
-        String itemsJson = null;
+        String itemsJson;
         try {
             itemsJson = fetchPlainText(Config.BASE_URL);
         } catch (IOException e) {
@@ -44,16 +45,16 @@ public class RemoteEndpointUtil {
         return null;
     }
 
-    static String fetchPlainText(URL url) throws IOException {
+    private static String fetchPlainText(URL url) throws IOException {
         return new String(fetch(url), "UTF-8" );
     }
 
-    static byte[] fetch(URL url) throws IOException {
+    private static byte[] fetch(URL url) throws IOException {
         InputStream in = null;
 
         try {
             OkHttpClient client = new OkHttpClient();
-            HttpURLConnection conn = client.open(url);
+            HttpURLConnection conn = new OkUrlFactory(client).open(url);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             in = conn.getInputStream();
             byte[] buffer = new byte[1024];
